@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -91,7 +92,19 @@ public class MyTaskRecyclerViewAdapter extends RecyclerView.Adapter<MyTaskRecycl
                     return false;
                 }
             });
-        }
+
+        holder.mImageButtonView.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                if(null!=mListener){
+                    mListener.onListDeleteClick(position);
+                }
+            }
+        });
+
+
+    }
+
 
 
 
@@ -104,6 +117,7 @@ public class MyTaskRecyclerViewAdapter extends RecyclerView.Adapter<MyTaskRecycl
         public final View mView;
         public final ImageView mItemImageView;
         public final TextView mContentView;
+        public final ImageButton mImageButtonView;
         public Task mItem;
 
         public ViewHolder(View view) {
@@ -111,6 +125,7 @@ public class MyTaskRecyclerViewAdapter extends RecyclerView.Adapter<MyTaskRecycl
             mView = view;
             mItemImageView =  view.findViewById(R.id.item_image);
             mContentView = view.findViewById(R.id.content);
+            mImageButtonView = view.findViewById(R.id.imagebutton);
         }
 
         @Override

@@ -24,12 +24,12 @@ public class new_entry extends AppCompatActivity {
 
     public void submitClick(View view) {
         EditText taskTitleEditTxt = findViewById(R.id.taskTitle);
-        EditText taskDescriptionEditText = findViewById(R.id.taskDescription);
+        EditText taskSurnameEditTxt = findViewById(R.id.taskDescription);
         EditText taskBdayEditText = findViewById(R.id.taskBirthday);
         EditText taskTelephoneEditText = findViewById(R.id.taskPhone);
         Spinner drawableSpinner = findViewById(R.id.drawableSpinner);
         String taskNewTitle = taskTitleEditTxt.getText().toString();
-        String taskNewDescription = taskDescriptionEditText.getText().toString();
+        String taskNewSurname = taskSurnameEditTxt.getText().toString();
         String newSelectedSound = drawableSpinner.getSelectedItem().toString();
         String taskNewPhone = taskTelephoneEditText.getText().toString();
         String taskNewBday = taskBdayEditText.getText().toString();
@@ -40,15 +40,14 @@ public class new_entry extends AppCompatActivity {
         data.putExtra(MainActivity.selectedSound, newSelectedSound);
         data.putExtra(MainActivity.taskPhone, taskNewPhone);
         data.putExtra(MainActivity.taskBday, taskNewBday);
-        data.putExtra(MainActivity.taskSurname, taskNewDescription);
+        data.putExtra(MainActivity.taskSurname, taskNewSurname);
 
-        Toast.makeText(getApplicationContext(), taskNewTitle +" - "+ taskNewDescription +" - "+ newSelectedSound, Toast.LENGTH_SHORT).show();
 
 
 
 
         taskTitleEditTxt.setText("");
-        taskDescriptionEditText.setText("");
+        taskSurnameEditTxt.setText("");
         taskBdayEditText.setText("");
         taskTelephoneEditText.setText("");
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);

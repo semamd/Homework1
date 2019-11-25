@@ -90,6 +90,7 @@ public class TaskFragment extends Fragment{
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnListFragmentInteractionListener {
+        void onListDeleteClick(int position);
         void onListFragmentClickInteraction(TaskListContent.Task task, int position);
         void onListFragmentLongClickInteraction(int position);
     }

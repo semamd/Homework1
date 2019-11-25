@@ -1,22 +1,24 @@
 package com.jose.homework1;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
 import com.jose.homework1.tasks.TaskListContent;
 
-public class MainActivity extends AppCompatActivity implements TaskFragment.OnListFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements TaskFragment.OnListFragmentInteractionListener, DeleteDialog.OnFragmentInteractionListener {
     public static final int BUTTON_REQUEST = 1;
     public static final int TASK_INFO = 0;
-    public static String taskName;
-    public static String taskSurname;
-    public static String taskBday;
-    public static String taskPhone;
-    public static String selectedSound;
+    public static String taskName="";
+    public static String taskSurname="";
+    public static String taskBday="";
+    public static String taskPhone="";
+    public static String selectedSound="";
     public static int taskImage;
     public int n;
     public static String imageString;
@@ -47,6 +49,9 @@ public class MainActivity extends AppCompatActivity implements TaskFragment.OnLi
                 selectedSound = data.getStringExtra(selectedSound);
 
 
+                Toast.makeText(getApplicationContext(), "Name: "+ taskName + "Surname: "+ taskSurname + "Phone: " + taskPhone + "Birthday "+ taskBday + "Sound: " + selectedSound, Toast.LENGTH_SHORT).show();
+
+
                 if (taskName.isEmpty() && taskSurname.isEmpty()) {
                     TaskListContent.addItem(new TaskListContent.Task("Task." + TaskListContent.ITEMS.size() + 1, getString(R.string.defaultName), getString(R.string.defaultSurname), selectedSound));
                 } else {
@@ -68,6 +73,12 @@ public class MainActivity extends AppCompatActivity implements TaskFragment.OnLi
                 Toast.makeText(getApplicationContext(), getText(R.string.back_message), Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    @Override
+    public void onListDeleteClick(int position) {
+        DeleteDialog.newInstance().show(getSupportFragmentManager(),getString(R.string.delete_dialog_tag));
+        currentItemPosition = position;
     }
 
     @Override
@@ -94,16 +105,14 @@ public class MainActivity extends AppCompatActivity implements TaskFragment.OnLi
                 break;
         }
         Intent taskinfo = new Intent(getApplicationContext(), show_details.class);
-        taskName = task.username;
         taskinfo.putExtra(taskName, task.username);
-        taskPhone = task.telephone;
         taskinfo.putExtra(taskPhone, task.telephone);
-        taskBday = task.bday;
         taskinfo.putExtra(taskBday,task.bday);
-        selectedSound = task.sound;
         taskinfo.putExtra(selectedSound,task.sound);
         taskinfo.putExtra(imageString,taskImage);
         startActivityForResult(taskinfo, TASK_INFO);
+        Toast.makeText(getApplicationContext(), "Name: "+ taskName + "Surname: "+ taskSurname + "Phone: " + taskPhone + "Birthday "+ taskBday + "Sound: " + selectedSound, Toast.LENGTH_SHORT).show();
+
     }
 
     @Override
@@ -113,8 +122,22 @@ public class MainActivity extends AppCompatActivity implements TaskFragment.OnLi
 
     }
 
-    private void showDeleteDialog(){
-        DeleteDialog.newInstance().show(getSupportFragmentManager(),getString(R.string.delete_dialog_tag));
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog) {
+        if(currentItemPosition != -1 && currentItemPosition< TaskListContent.ITEMS.size()){
+            TaskListContent.removeItem(currentItemPosition);
+            ((TaskFragment) getSupportFragmentManager().findFragmentById(R.id.taskFragment)).notifyDataChange();
+        }
+    }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog) {
+
+    }
 }
